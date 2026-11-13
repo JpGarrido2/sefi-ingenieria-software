@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEFI | Sistema de Estandarización y Fiabilidad de Ingeniería</title>
+<style>
+:root{--navy:#142b38;--navy2:#203f50;--cyan:#20bfd0;--copper:#c47d55;--bg:#f3f6f8;--ink:#243642;--muted:#71818b;--line:#dfe7eb;--white:#fff;--green:#16865d;--red:#bf4b4b;--amber:#b87920}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:14px/1.5 Inter,Segoe UI,Arial,sans-serif;color:var(--ink)}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:9px;padding:10px 14px;font-weight:650}
+.app{min-height:100vh}.top{background:linear-gradient(115deg,var(--navy),var(--navy2));color:white;padding:22px 28px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.brand{display:flex;gap:13px;align-items:center}.logo{width:43px;height:43px;border:1px solid #57d4df;border-radius:12px;display:grid;place-items:center;color:#65e0e9;font-weight:900;font-size:19px}
+.brand h1{font-size:19px;margin:0;letter-spacing:.3px}.brand p{margin:2px 0 0;color:#c5d7df;font-size:12px}
+.top-actions{display:flex;gap:8px;flex-wrap:wrap}.btn-light{background:#ffffff18;color:white;border:1px solid #ffffff35}.btn-cyan{background:var(--cyan);color:#102d38}.btn-dark{background:var(--navy);color:white}.btn-outline{background:white;color:var(--navy);border:1px solid var(--line)}.btn-danger{background:#fff0f0;color:var(--red);border:1px solid #f1cccc}
+.shell{display:grid;grid-template-columns:230px minmax(0,1fr);max-width:1500px;margin:auto;min-height:calc(100vh - 88px)}
+.sidebar{background:#fff;border-right:1px solid var(--line);padding:20px 13px}
+.nav-label{font-size:10px;color:#9aa8b0;font-weight:800;letter-spacing:1.4px;padding:12px 12px 7px}
+.nav{width:100%;text-align:left;background:transparent;color:#51636e;padding:11px 12px;margin:2px 0;display:flex;gap:10px;align-items:center;font-weight:600}
+.nav.active{background:#e8f7f8;color:#116b78}.nav .ico{width:20px;text-align:center;font-size:16px}
+.sidebar-note{margin:25px 7px 0;background:#f3f7f8;border-radius:11px;padding:13px;font-size:11px;color:#657781}
+main{padding:25px;min-width:0}.page-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;margin-bottom:20px;flex-wrap:wrap}
+h2{font-size:23px;margin:0;color:var(--navy)}.subtitle{color:var(--muted);margin:5px 0 0}
+.grid{display:grid;gap:15px}.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:18px}
+.stat,.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:17px;box-shadow:0 3px 12px #172d3808}
+.stat .label{font-size:12px;color:var(--muted)}.stat .value{font-size:27px;font-weight:800;color:var(--navy);margin-top:3px}.stat .hint{font-size:11px;color:#83929a}
+.two{grid-template-columns:1.2fr .8fr}.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.panel h3{font-size:15px;margin:0 0 13px;color:var(--navy)}.panel p{color:var(--muted)}
+.pill{display:inline-block;border-radius:30px;padding:3px 9px;font-size:11px;font-weight:750;background:#edf2f4;color:#53636c}
+.pill.green{background:#e6f5ee;color:#14734e}.pill.amber{background:#fff3df;color:#986013}.pill.red{background:#ffeded;color:#a63e3e}.pill.cyan{background:#e3f8fa;color:#11717c}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:620px}th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#71818a;background:#f7f9fa;padding:11px}td{padding:12px 11px;border-top:1px solid #edf1f3;vertical-align:top}td strong{color:var(--navy)}.empty{text-align:center;padding:30px;color:#87959c}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:750;color:#53636c}.field input,.field select,.field textarea{width:100%;padding:10px 11px;border:1px solid #d9e2e6;border-radius:8px;background:white;color:var(--ink)}textarea{min-height:85px;resize:vertical}
+.actions{display:flex;gap:7px;flex-wrap:wrap}.small{padding:6px 9px;font-size:11px}.muted{color:var(--muted)}.divider{height:1px;background:var(--line);margin:15px 0}
+.pipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin:18px 0}
+.stage{background:#f5f8f9;border:1px solid var(--line);border-radius:11px;padding:14px 10px;text-align:center;position:relative}
+.stage .n{width:27px;height:27px;border-radius:50%;background:#dce7eb;color:#49616c;display:grid;place-items:center;margin:0 auto 8px;font-weight:800}
+.stage.done{border-color:#a9ddc7;background:#eff9f4}.stage.done .n{background:#16865d;color:white}.stage.fail{border-color:#e8b9b9;background:#fff4f4}.stage.fail .n{background:var(--red);color:white}
+.stage b{display:block;font-size:12px}.stage small{font-size:10px;color:var(--muted)}
+.envs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.env{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff}.env h4{margin:0;color:var(--navy);font-size:14px}.env .env-code{font-size:11px;color:#13909e;font-weight:800;letter-spacing:1px}.env .artifact{font-size:12px;margin-top:12px;overflow-wrap:anywhere}
+.log{border-left:3px solid var(--cyan);padding:8px 12px;margin:9px 0;background:#f7fafb;border-radius:0 8px 8px 0;font-size:12px}.log time{color:#84939a;font-size:10px;display:block}
+.callout{background:#edf7f8;border:1px solid #cde9ec;padding:14px;border-radius:10px;color:#35545e}
+.modal-back{position:fixed;inset:0;background:#0d202bcc;display:none;align-items:center;justify-content:center;padding:18px;z-index:20}.modal-back.open{display:flex}.modal{background:white;border-radius:15px;padding:22px;width:min(650px,100%);max-height:90vh;overflow:auto}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.modal-head h3{margin:0;color:var(--navy)}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--navy);color:white;padding:12px 17px;border-radius:10px;box-shadow:0 8px 25px #0002;display:none;z-index:40}
+.footer{text-align:center;color:#9aa7ae;font-size:11px;padding:20px}
+@media(max-width:900px){.shell{grid-template-columns:1fr}.sidebar{display:flex;overflow:auto;border-right:0;border-bottom:1px solid var(--line);padding:8px}.nav-label,.sidebar-note{display:none}.nav{white-space:nowrap;width:auto}.stats{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}
+@media(max-width:600px){main{padding:15px}.three,.envs{grid-template-columns:1fr}.pipeline{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.top{padding:16px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+ <div class="brand"><div class="logo">SE</div><div><h1>SEFI · Ingeniería de Software</h1><p>Sistema de Estandarización, Trazabilidad y Fiabilidad</p></div></div>
+ <div class="top-actions"><button class="btn-light" onclick="exportData()">⇩ Exportar datos</button><button class="btn-light" onclick="document.getElementById('importFile').click()">⇧ Importar</button><input id="importFile" type="file" accept=".json" hidden onchange="importData(event)"><button class="btn-cyan" onclick="openRequirement()">+ Nuevo requisito</button></div>
+</header>
+<div class="shell">
+<aside class="sidebar">
+ <div class="nav-label">ESPACIO DE TRABAJO</div>
+ <button class="nav active" data-page="dashboard" onclick="navigate('dashboard')"><span class="ico">▦</span>Panel general</button>
+ <button class="nav" data-page="requirements" onclick="navigate('requirements')"><span class="ico">☷</span>Requisitos</button>
+ <button class="nav" data-page="adrs" onclick="navigate('adrs')"><span class="ico">◇</span>Decisiones ADR</button>
+ <button class="nav" data-page="trace" onclick="navigate('trace')"><span class="ico">⌘</span>Trazabilidad</button>
+ <div class="nav-label">ENTREGA Y OPERACIÓN</div>
+ <button class="nav" data-page="pipeline" onclick="navigate('pipeline')"><span class="ico">⟳</span>Pipeline CI/CD</button>
+ <button class="nav" data-page="environments" onclick="navigate('environments')"><span class="ico">▤</span>Ambientes</button>
+ <button class="nav" data-page="audit" onclick="navigate('audit')"><span class="ico">≡</span>Registro de actividad</button>
+ <div class="sidebar-note"><strong>Modelo de referencia</strong><br>ISO/IEC/IEEE 29148 · ADR · DevOps · CI/CD · Artefactos inmutables<br><br><span class="pill cyan">Prototipo ejecutable local</span></div>
+</aside>
+<main id="main"></main>
+</div>
+<div class="footer">SEFI · Prototipo funcional basado en “Buenas prácticas de ingeniería de software” · Datos guardados en este navegador</div>
+</div>
+<div class="modal-back" id="modalBack" onclick="if(event.target===this)closeModal()"><div class="modal"><div class="modal-head"><h3 id="modalTitle">Formulario</h3><button class="btn-outline small" onclick="closeModal()">✕</button></div><div id="modalBody"></div></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const KEY='sefi_v1';
+let db=load();
+function seed(){return {requirements:[],adrs:[],links:[],artifacts:[],environments:{dev:null,staging:null,prod:null},runs:[],logs:[]}}
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||seed()}catch(e){return seed()}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));}
+function uid(prefix){return prefix+'-'+Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).slice(2,6).toUpperCase()}
+function log(message,type='info'){db.logs.unshift({id:uid('LOG'),message,type,date:new Date().toISOString()});db.logs=db.logs.slice(0,150);save()}
+function toast(msg){let t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2600)}
+function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function date(s){return new Date(s).toLocaleString('es-CO',{dateStyle:'short',timeStyle:'short'})}
+function navigate(page){document.querySelectorAll('.nav').forEach(n=>n.classList.toggle('active',n.dataset.page===page));({dashboard,requirements,adrs,trace,pipeline,environments,audit})[page]()}
+function head(title,sub,action=''){return `<div class="page-head"><div><h2>${title}</h2><p class="subtitle">${sub}</p></div>${action}</div>`}
+function dashboard(){
+let linked=db.requirements.filter(r=>db.links.some(l=>l.req===r.id)).length;
+let latest=db.runs[0];
+document.getElementById('main').innerHTML=head('Panel general','Visión del estado del modelo de trazabilidad y despliegue.')+
+`<div class="grid stats">
+<div class="stat"><div class="label">Requisitos registrados</div><div class="value">${db.requirements.length}</div><div class="hint">Funcionales y no funcionales</div></div>
+<div class="stat"><div class="label">Decisiones ADR</div><div class="value">${db.adrs.length}</div><div class="hint">Conocimiento arquitectónico</div></div>
+<div class="stat"><div class="label">Requisitos trazados</div><div class="value">${linked}</div><div class="hint">${db.requirements.length?Math.round(linked/db.requirements.length*100):0}% con al menos un vínculo</div></div>
+<div class="stat"><div class="label">Ejecuciones CI/CD</div><div class="value">${db.runs.length}</div><div class="hint">Última: ${latest?esc(latest.status):'Sin ejecutar'}</div></div></div>
+<div class="grid two">
+<div class="panel"><h3>Flujo de trabajo del modelo</h3><div class="pipeline">
+${[['1','Requisitos','RF / RNF'],['2','Decisiones ADR','MADR / Nygard'],['3','Trazabilidad','Requisito → ADR → prueba'],['4','Pipeline','Build y validación'],['5','Promoción','DEV → STAGING → PROD']].map(x=>`<div class="stage"><div class="n">${x[0]}</div><b>${x[1]}</b><small>${x[2]}</small></div>`).join('')}
+</div><div class="callout">El flujo exige relacionar las necesidades con decisiones y pruebas antes de considerar una liberación.</div></div>
+<div class="panel"><h3>Última actividad</h3>${db.logs.slice(0,5).map(l=>`<div class="log">${esc(l.message)}<time>${date(l.date)}</time></div>`).join('')||'<div class="empty">Todavía no hay actividad registrada.</div>'}</div>
+</div>
+<div class="panel" style="margin-top:15px"><h3>Estado de ambientes</h3><div class="envs">${envCard('dev','DEV / QA','Integración y pruebas')}${envCard('staging','STAGING','Preproducción')}${envCard('prod','PRODUCCIÓN','Operación real')}</div></div>`;
+}
+function envCard(key,name,desc){let a=db.environments[key];return `<div class="env"><div class="env-code">${name}</div><h4>${desc}</h4><div class="artifact">${a?`Artefacto: <strong>${esc(a.version)}</strong><br><span class="pill green">Desplegado</span>`:'<span class="pill">Sin artefacto</span>'}</div></div>`}
+function requirements(){
+document.getElementById('main').innerHTML=head('Gestión de requisitos','Registre requisitos funcionales y no funcionales con identificadores verificables.','<button class="btn-dark" onclick="openRequirement()">+ Registrar requisito</button>')+
+`<div class="panel"><div class="table-wrap"><table><thead><tr><th>ID</th><th>Tipo</th><th>Requisito</th><th>Prioridad</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>${db.requirements.map(r=>`<tr><td><strong>${esc(r.code)}</strong></td><td>${esc(r.type)}</td><td>${esc(r.title)}<br><span class="muted">${esc(r.description)}</span></td><td>${esc(r.priority)}</td><td><span class="pill ${r.status==='Aprobado'?'green':'amber'}">${esc(r.status)}</span></td><td><button class="btn-outline small" onclick="editRequirement('${r.id}')">Editar</button> <button class="btn-danger small" onclick="del('requirements','${r.id}')">Eliminar</button></td></tr>`).join('')||'<tr><td colspan="6" class="empty">No hay requisitos. Registre el primero para comenzar.</td></tr>'}</tbody></table></div></div>`;
+}
+function openRequirement(r=null){modal('Registrar requisito',`<form onsubmit="saveRequirement(event,'${r?.id||''}')"><div class="form-grid">
+<div class="field"><label>Identificador</label><input name="code" required placeholder="RF-001" value="${esc(r?.code||'')}"></div>
+<div class="field"><label>Tipo</label><select name="type"><option ${r?.type==='Funcional'?'selected':''}>Funcional</option><option ${r?.type==='No funcional'?'selected':''}>No funcional</option></select></div>
+<div class="field full"><label>Nombre del requisito</label><input name="title" required value="${esc(r?.title||'')}" placeholder="El sistema deberá..."></div>
+<div class="field full"><label>Descripción / criterio verificable</label><textarea name="description" required placeholder="Describa qué debe cumplir y cómo se reconoce su cumplimiento.">${esc(r?.description||'')}</textarea></div>
+<div class="field"><label>Prioridad</label><select name="priority"><option>Alta</option><option ${r?.priority==='Media'?'selected':''}>Media</option><option ${r?.priority==='Baja'?'selected':''}>Baja</option></select></div>
+<div class="field"><label>Estado</label><select name="status"><option>Pendiente</option><option ${r?.status==='En revisión'?'selected':''}>En revisión</option><option ${r?.status==='Aprobado'?'selected':''}>Aprobado</option></select></div>
+</div><div class="actions" style="margin-top:17px"><button class="btn-cyan">Guardar requisito</button><button type="button" class="btn-outline" onclick="closeModal()">Cancelar</button></div></form>`)}
+function saveRequirement(e,id){e.preventDefault();let f=Object.fromEntries(new FormData(e.target));if(id){Object.assign(db.requirements.find(x=>x.id===id),f)}else{db.requirements.push({id:uid('REQ'),...f})}save();log(`${id?'Actualizado':'Registrado'} requisito ${f.code}`);closeModal();requirements();toast('Requisito guardado')}
+function editRequirement(id){openRequirement(db.requirements.find(x=>x.id===id))}
+function adrs(){
+document.getElementById('main').innerHTML=head('Decisiones arquitectónicas · ADR','Documente el contexto, las alternativas, la decisión y sus consecuencias.','<button class="btn-dark" onclick="openADR()">+ Nueva decisión ADR</button>')+
+`<div class="panel"><div class="table-wrap"><table><thead><tr><th>ID</th><th>Plantilla</th><th>Decisión</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>${db.adrs.map(a=>`<tr><td><strong>${esc(a.code)}</strong></td><td><span class="pill cyan">${esc(a.template)}</span></td><td><strong>${esc(a.title)}</strong><br><span class="muted">${esc(a.context)}</span></td><td><span class="pill green">${esc(a.status)}</span></td><td><button class="btn-outline small" onclick="editADR('${a.id}')">Ver / editar</button> <button class="btn-danger small" onclick="del('adrs','${a.id}')">Eliminar</button></td></tr>`).join('')||'<tr><td colspan="5" class="empty">No hay decisiones registradas.</td></tr>'}</tbody></table></div></div>`;
+}
+function openADR(a=null){modal('Registro de decisión arquitectónica',`<form onsubmit="saveADR(event,'${a?.id||''}')"><div class="form-grid">
+<div class="field"><label>Identificador</label><input name="code" required placeholder="ADR-001" value="${esc(a?.code||'')}"></div>
+<div class="field"><label>Plantilla</label><select name="template"><option ${a?.template==='MADR'?'selected':''}>MADR</option><option ${a?.template==='Nygard'?'selected':''}>Nygard</option></select></div>
+<div class="field full"><label>Título de la decisión</label><input name="title" required value="${esc(a?.title||'')}"></div>
+<div class="field full"><label>Contexto y problema</label><textarea name="context" required>${esc(a?.context||'')}</textarea></div>
+<div class="field full"><label>Alternativas evaluadas</label><textarea name="alternatives" required>${esc(a?.alternatives||'')}</textarea></div>
+<div class="field full"><label>Decisión adoptada</label><textarea name="decision" required>${esc(a?.decision||'')}</textarea></div>
+<div class="field full"><label>Consecuencias</label><textarea name="consequences" required>${esc(a?.consequences||'')}</textarea></div>
+<div class="field"><label>Estado</label><select name="status"><option>Propuesta</option><option ${a?.status==='Aceptada'?'selected':''}>Aceptada</option><option ${a?.status==='Rechazada'?'selected':''}>Rechazada</option></select></div>
+</div><div class="actions" style="margin-top:17px"><button class="btn-cyan">Guardar ADR</button><button type="button" class="btn-outline" onclick="closeModal()">Cancelar</button></div></form>`)}
+function saveADR(e,id){e.preventDefault();let f=Object.fromEntries(new FormData(e.target));if(id)Object.assign(db.adrs.find(x=>x.id===id),f);else db.adrs.push({id:uid('ADR'),...f});save();log(`${id?'Actualizada':'Registrada'} decisión ${f.code}`);closeModal();adrs();toast('Decisión ADR guardada')}
+function editADR(id){openADR(db.adrs.find(x=>x.id===id))}
+function trace(){
+let rows=db.requirements.map(r=>{let ls=db.links.filter(l=>l.req===r.id);return `<tr><td><strong>${esc(r.code)}</strong><br>${esc(r.title)}</td><td>${ls.map(l=>{let a=db.adrs.find(a=>a.id===l.adr);return a?`<span class="pill cyan">${esc(a.code)}</span>`:''}).join('<br>')||'<span class="pill amber">Sin ADR</span>'}</td><td>${ls.map(l=>esc(l.test)).join('<br>')||'—'}</td><td><button class="btn-outline small" onclick="openLink('${r.id}')">Vincular</button></td></tr>`}).join('');
+document.getElementById('main').innerHTML=head('Matriz de trazabilidad','Relacione cada requisito con una decisión arquitectónica y su prueba verificable.','<button class="btn-dark" onclick="openLink()">+ Crear vínculo</button>')+
+`<div class="callout" style="margin-bottom:14px"><strong>Regla de trazabilidad:</strong> Requisito → ADR → caso de prueba. Antes de ejecutar el pipeline, cada requisito debe tener al menos un vínculo completo.</div><div class="panel"><div class="table-wrap"><table><thead><tr><th>Requisito</th><th>Decisión ADR</th><th>Caso de prueba</th><th>Acción</th></tr></thead><tbody>${rows||'<tr><td colspan="4" class="empty">Registre requisitos para construir la matriz.</td></tr>'}</tbody></table></div></div>`;
+}
+function openLink(reqId=''){modal('Crear vínculo de trazabilidad',`<form onsubmit="saveLink(event)"><div class="form-grid">
+<div class="field full"><label>Requisito</label><select name="req" required>${db.requirements.map(r=>`<option value="${r.id}" ${reqId===r.id?'selected':''}>${esc(r.code)} — ${esc(r.title)}</option>`).join('')}</select></div>
+<div class="field full"><label>Decisión arquitectónica</label><select name="adr" required>${db.adrs.map(a=>`<option value="${a.id}">${esc(a.code)} — ${esc(a.title)}</option>`).join('')}</select></div>
+<div class="field full"><label>Caso de prueba / criterio de validación</label><textarea name="test" required placeholder="Ej.: Verificar que..."></textarea></div>
+</div><div class="actions" style="margin-top:17px"><button class="btn-cyan" ${!db.requirements.length||!db.adrs.length?'disabled':''}>Guardar vínculo</button><button type="button" class="btn-outline" onclick="closeModal()">Cancelar</button></div></form>${!db.requirements.length||!db.adrs.length?'<p class="muted">Primero registre al menos un requisito y una decisión ADR.</p>':''}`)}
+function saveLink(e){e.preventDefault();let f=Object.fromEntries(new FormData(e.target));db.links.push({id:uid('LINK'),...f});save();log('Creado vínculo de trazabilidad entre requisito, ADR y prueba');closeModal();trace();toast('Vínculo creado')}
+function pipeline(){
+let last=db.runs[0],stages=last?.stages||[];
+document.getElementById('main').innerHTML=head('Pipeline de integración y entrega continua','Ejecute una validación demostrativa del modelo antes de generar un artefacto.','<button class="btn-cyan" onclick="runPipeline()">▶ Ejecutar pipeline</button>')+
+`<div class="panel"><h3>Etapas de ejecución</h3><div class="pipeline">${[['1','Integración','Verificar estructura'],['2','Build','Generar artefacto'],['3','Pruebas','Validar trazabilidad'],['4','Empaquetado','Identificar versión'],['5','Liberación','Habilitar DEV/QA']].map((s,i)=>`<div class="stage ${stages[i]||''}"><div class="n">${s[0]}</div><b>${s[1]}</b><small>${s[2]}</small></div>`).join('')}</div>${last?`<div class="callout"><strong>Última ejecución:</strong> ${date(last.date)} · <span class="pill ${last.status==='EXITOSA'?'green':'red'}">${last.status}</span><br>${esc(last.message)}</div>`:'<p class="muted">Aún no se ha ejecutado el pipeline.</p>'}</div>
+<div class="panel" style="margin-top:15px"><h3>Condiciones de validación</h3><ul><li>Debe existir al menos un requisito registrado.</li><li>Cada requisito debe contar con un vínculo a una decisión ADR y un caso de prueba.</li><li>Las decisiones vinculadas deben estar aceptadas.</li><li>El artefacto se genera una vez y se conserva durante las promociones.</li></ul><p class="muted">Esta ejecución es una simulación local del pipeline; no compila código fuente ni se conecta a servidores CI/CD externos.</p></div>`;
+}
+function runPipeline(){
+let issues=[];
+if(!db.requirements.length)issues.push('No hay requisitos registrados.');
+if(!db.adrs.length)issues.push('No hay decisiones ADR registradas.');
+db.requirements.forEach(r=>{let links=db.links.filter(l=>l.req===r.id);if(!links.length)issues.push(`${r.code}: no tiene vínculo de trazabilidad.`);links.forEach(l=>{let a=db.adrs.find(x=>x.id===l.adr);if(!a||a.status!=='Aceptada')issues.push(`${r.code}: la decisión ADR asociada no está aceptada.`);if(!l.test.trim())issues.push(`${r.code}: falta el caso de prueba.`)})});
+let stages=issues.length?['done','done','fail','',''] : ['done','done','done','done','done'];
+let run={id:uid('RUN'),date:new Date().toISOString(),stages,status:issues.length?'FALLIDA':'EXITOSA',message:issues.length?issues.join(' '):'Validaciones superadas. Artefacto generado y desplegado en DEV/QA.'};
+if(!issues.length){let version='SEFI-'+new Date().toISOString().replace(/[-:TZ.]/g,'').slice(0,14);let artifact={id:uid('ART'),version,created:run.date,checksum:simpleHash(JSON.stringify({req:db.requirements,adr:db.adrs,links:db.links,version})),immutable:true};db.artifacts.push(artifact);db.environments.dev={artifactId:artifact.id,version,at:run.date};run.artifactId=artifact.id;log(`Pipeline exitoso: artefacto ${version} creado y desplegado en DEV/QA`,'success')}
+else log('Pipeline detenido: '+issues.join(' | '),'error');
+db.runs.unshift(run);save();pipeline();toast(run.status==='EXITOSA'?'Pipeline exitoso: artefacto creado':'Pipeline detenido: revise las validaciones');
+}
+function simpleHash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(16).toUpperCase().padStart(8,'0')}
+function environments(){
+document.getElementById('main').innerHTML=head('Ambientes de despliegue','Promueva el mismo artefacto validado entre DEV/QA, STAGING y PRODUCCIÓN.')+
+`<div class="envs">${envCard('dev','DEV / QA','Integración continua y pruebas')}${envCard('staging','STAGING','Preproducción y validación')}${envCard('prod','PRODUCCIÓN','Operación real')}</div>
+<div class="panel" style="margin-top:15px"><h3>Promoción controlada</h3><p>La promoción no reconstruye el software. Transfiere la referencia al mismo artefacto inmutable.</p><div class="actions"><button class="btn-cyan" onclick="promote('staging')">Promover DEV/QA → STAGING</button><button class="btn-dark" onclick="promote('prod')">Promover STAGING → PRODUCCIÓN</button></div><div class="divider"></div><h3>Artefactos generados</h3><div class="table-wrap"><table><thead><tr><th>Versión</th><th>Identificador</th><th>Huella local</th><th>Creación</th><th>Estado</th></tr></thead><tbody>${db.artifacts.map(a=>`<tr><td><strong>${esc(a.version)}</strong></td><td>${esc(a.id)}</td><td><code>${esc(a.checksum)}</code></td><td>${date(a.created)}</td><td><span class="pill green">Inmutable</span></td></tr>`).join('')||'<tr><td colspan="5" class="empty">No hay artefactos. Ejecute primero el pipeline.</td></tr>'}</tbody></table></div></div>
+<div class="callout" style="margin-top:14px">La huella mostrada es un identificador demostrativo generado localmente, no una firma criptográfica de producción. La aplicación no realiza despliegues reales en infraestructura externa.</div>`;
+}
+function promote(target){
+let source=target==='staging'?'dev':'staging',a=db.environments[source];if(!a){toast(`No hay artefacto en ${source.toUpperCase()}`);return}
+let artifact=db.artifacts.find(x=>x.id===a.artifactId);if(!artifact){toast('No se encontró el artefacto');return}
+if(target==='prod'&&!db.environments.staging){toast('Primero debe promover el artefacto a STAGING');return}
+db.environments[target]={artifactId:artifact.id,version:artifact.version,at:new Date().toISOString()};log(`Artefacto ${artifact.version} promovido a ${target.toUpperCase()}`,'success');save();environments();toast(`Mismo artefacto promovido a ${target.toUpperCase()}`);
+}
+function audit(){document.getElementById('main').innerHTML=head('Registro de actividad','Historial local de cambios, validaciones y promociones.')+
+`<div class="panel"><div class="actions" style="justify-content:space-between"><strong>Eventos registrados: ${db.logs.length}</strong><button class="btn-outline small" onclick="if(confirm('¿Limpiar el historial?')){db.logs=[];save();audit()}">Limpiar historial</button></div>${db.logs.map(l=>`<div class="log">${esc(l.message)} <span class="pill ${l.type==='success'?'green':l.type==='error'?'red':''}">${esc(l.type)}</span><time>${date(l.date)}</time></div>`).join('')||'<div class="empty">Sin eventos registrados.</div>'}</div>`}
+function del(collection,id){if(!confirm('¿Eliminar este registro? Los vínculos asociados también pueden dejar de ser válidos.'))return;db[collection]=db[collection].filter(x=>x.id!==id);if(collection==='requirements')db.links=db.links.filter(l=>l.req!==id);if(collection==='adrs')db.links=db.links.filter(l=>l.adr!==id);save();log('Se eliminó un registro de '+collection);({requirements,adrs})[collection]();toast('Registro eliminado')}
+function modal(title,body){document.getElementById('modalTitle').textContent=title;document.getElementById('modalBody').innerHTML=body;document.getElementById('modalBack').classList.add('open')}
+function closeModal(){document.getElementById('modalBack').classList.remove('open')}
+function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='SEFI_respaldo.json';a.click();URL.revokeObjectURL(a.href);toast('Respaldo exportado')}
+function importData(e){let file=e.target.files[0];if(!file)return;let reader=new FileReader();reader.onload=()=>{try{let x=JSON.parse(reader.result);if(!x.requirements||!x.adrs||!x.links)throw Error();db={...seed(),...x};save();navigate('dashboard');toast('Datos importados')}catch(err){alert('Archivo no válido para SEFI')} };reader.readAsText(file);e.target.value=''}
+navigate('dashboard');
+</script>
+</body>
+</html>
